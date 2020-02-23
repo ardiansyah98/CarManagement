@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CarManagement.Models.Car>
+
+@{
+    ViewData["Title"] = "Car Management";
+}
+
+<h4>List of Cars</h4>
+<p>
+    <input type="button" value="Create New" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Create", "Car") + "'");" />
+</p>
+
+<div class="table-responsive">
+    <table class="table" width="100%">
+        <thead>
+            <tr>
+                <th nowrap width="20%">Actions</th>
+                <th nowrap width="20%">
+                    @Html.DisplayNameFor(model => model.szCarId)
+                </th>
+                <th nowrap width="45%">
+                    @Html.DisplayNameFor(model => model.szCarName)
+                </th>
+                <th nowrap width="15%">
+                    @Html.DisplayNameFor(model => model.szCarModel)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td nowrap>
+                    <input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Car", new { szCarId = @item.szCarId}) + "'");" />
+                    <input type="button" value="Detail" class="btn btn-success" onclick="@("window.location.href='" + @Url.Action("Detail", "Car", new { szCarId = @item.szCarId}) + "'");" />
+                    <input type="button" value="Delete" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete", "Car", new { szCarId = @item.szCarId}) + "'");" />
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.szCarId)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.szCarName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.szCarModel)
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -4,6 +4,35 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20200223115301_Log.cs" />
+    <Compile Remove="Migrations\20200223115301_Log.Designer.cs" />
+    <Compile Remove="Migrations\20200223115310_Car.cs" />
+    <Compile Remove="Migrations\20200223115310_Car.Designer.cs" />
+    <Compile Remove="Migrations\20200223125536_Log.cs" />
+    <Compile Remove="Migrations\20200223125536_Log.Designer.cs" />
+    <Compile Remove="Migrations\20200223125550_Car.cs" />
+    <Compile Remove="Migrations\20200223125550_Car.Designer.cs" />
+    <Compile Remove="Migrations\20200223150328_Log.cs" />
+    <Compile Remove="Migrations\20200223150328_Log.Designer.cs" />
+    <Compile Remove="Migrations\20200223150631_Log.cs" />
+    <Compile Remove="Migrations\20200223150631_Log.Designer.cs" />
+    <Compile Remove="Migrations\20200223150722_Log_Car.cs" />
+    <Compile Remove="Migrations\20200223150722_Log_Car.Designer.cs" />
+    <Compile Remove="Migrations\20200223152139_Log_Car.cs" />
+    <Compile Remove="Migrations\20200223152139_Log_Car.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
 
 
 </Project>
