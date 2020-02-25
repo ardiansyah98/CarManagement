@@ -7,9 +7,12 @@ using CarManagement.Data;
 using CarManagement.Models;
 using CarManagement.Constants;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CarManagement.Controllers
 {
+    [Authorize]
     public class CarController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,9 +22,13 @@ namespace CarManagement.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Car.ToListAsync());
+            if (this.HttpContext.User.Identity.IsAuthenticated)
+                return View(await _context.Car.ToListAsync());
+            else
+                return View();
         }
 
         public async Task<IActionResult> Detail(string szCarId)
@@ -111,7 +118,7 @@ namespace CarManagement.Controllers
                 dtmCreated = dtmNow,
                 szAction = szAction,
                 szUri = CarConstants.URI,
-                szEmail = "dummy@email.com",
+                szEmail = this.HttpContext.User.Claims.Where(x=>x.Type == ClaimTypes.Email).FirstOrDefault().Value,
                 szData = JsonConvert.SerializeObject(car)
             };
             _context.Log.Add(log); 

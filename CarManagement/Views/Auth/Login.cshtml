@@ -1,0 +1,88 @@
+﻿@model CarManagement.Models.SignInRequest
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Login</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="alert alert-danger" style="display:none" id="divMsg"></div>
+
+        <form id="formLogin">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="szEmail" class="control-label">Email</label>
+                <input asp-for="szEmail" id="szEmail" type="email" class="form-control" required/>
+                <span asp-validation-for="szEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="szPassword" class="control-label">Password</label>
+                <input asp-for="szPassword" id="szPassword" type="password" class="form-control" required/>
+                <span asp-validation-for="szPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $(document).ready(function () {
+        $("#formLogin").submit(function (e) {
+            $("#formLogin").validate()
+            e.preventDefault();
+            $('#divMsg').html("").hide();
+
+            let signInRequest = {
+                szEmail: $('#szEmail').val(),
+                szPassword: $('#szPassword').val()
+            };
+
+            let ajax_url = CreateUrl("api/signin");
+
+            $.ajax({
+                type: "POST",
+                url: ajax_url,
+                data: JSON.stringify(signInRequest),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $(".divLoading").show();
+                },
+                success: function (result) {
+                    if (result.statusCode == "200") {
+                        $(".divLoading").hide();
+                        window.location.href = CreateUrl("car/index");
+                    } else {
+                        var errorMsg = result.message;
+                        $('#divMsg').html(errorMsg).show();
+                        $(".divLoading").hide();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#divMsg').html(error).show();
+                    $(".divLoading").hide();
+
+                }
+            });
+        });
+    });
+
+    function CreateUrl(path) {
+        var url = window.location.origin;
+
+        if (path.length > 0)
+            url += "/" + path; 
+
+        return url;
+    }
+</script>
+}
+

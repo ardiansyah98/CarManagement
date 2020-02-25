@@ -1,0 +1,109 @@
+﻿@model CarManagement.Models.RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Register</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="alert alert-danger" style="display:none" id="divErrMsg"></div>
+        <div class="alert alert-success" style="display:none" id="divSuccessMsg"></div>
+
+        <form id="formRegister">
+            <div id="messageDiv"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="szEmail" class="control-label">Email</label>
+                <input id="szEmail" asp-for="szEmail" type="email" class="form-control" required/>
+                <span asp-validation-for="szEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="szFullName" class="control-label">Full Name</label>
+                <input id="szFullName" asp-for="szFullName" class="form-control" required/>
+                <span asp-validation-for="szFullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="szPassword" class="control-label">Password</label>
+                <input id="szPassword" asp-for="szPassword" type="password" class="form-control" required/>
+                <span asp-validation-for="szPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="szConfirmPassword" class="control-label">Confirm Password</label>
+                <input id="szConfirmPassword" asp-for="szConfirmPassword" type="password" class="form-control" required/>
+                <span asp-validation-for="szConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $(document).ready(function () {
+        $("#formRegister").submit(function (e) {
+            $("#formRegister").validate();
+            e.preventDefault();
+            $('#divErrMsg').html("").hide();
+            $('#divSuccessMsg').html("").hide();
+
+            let registerModel = {
+                szEmail: $.trim($('#szEmail').val()),
+                szPassword: $('#szPassword').val(),
+                szConfirmPassword: $('#szConfirmPassword').val(),
+                szFullName: $.trim($('#szFullName').val())
+            };
+
+            let ajax_url = CreateUrl("api/signup");
+
+            $.ajax({
+                type: "POST",
+                url: ajax_url,
+                data: JSON.stringify(registerModel),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $(".divLoading").show();
+                },
+                success: function (result) {
+                    if (result.statusCode == "200") {
+
+                        $('#szEmail').val('');
+                        $('#szFullName').val('');
+                        $('#szPassword').val('');
+                        $('#szConfirmPassword').val('');
+
+                        $('#divSuccessMsg').html("Registration Success").show();
+                        $(".divLoading").hide();
+                    } else {
+                        var errorMsg = result.message;
+                        $('#divErrMsg').html(errorMsg).show();
+                        $(".divLoading").hide();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $('#divErrMsg').html(error).show();
+                    $(".divLoading").hide();
+
+                }
+            });
+        });
+    });
+
+    function CreateUrl(path) {
+        var url = window.location.origin;
+
+        if (path.length > 0)
+            url += "/" + path;
+
+        return url;
+    }
+</script>
+}
+
