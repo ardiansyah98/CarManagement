@@ -11,9 +11,7 @@ namespace CarManagement.Data
         }
 
         public DbSet<Log> Log { get; set; }
-
         public DbSet<Car> Car { get; set; }
-
         public DbSet<CarManagement.Models.User> User { get; set; }
     }
 }

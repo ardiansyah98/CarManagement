@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200223153435_Log_Car")]
-    partial class Log_Car
+    [Migration("20200225031923_InitialApps")]
+    partial class InitialApps
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -73,6 +73,30 @@ namespace CarManagement.Migrations
                     b.HasKey("gdHistoryId");
 
                     b.ToTable("Log");
+                });
+
+            modelBuilder.Entity("CarManagement.Models.User", b =>
+                {
+                    b.Property<string>("szEmail")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<DateTime>("dtmCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("dtmUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("szFullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("szEmail");
+
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }

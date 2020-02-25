@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarManagement.Migrations
 {
-    public partial class Log_Car : Migration
+    public partial class InitialApps : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -37,6 +37,21 @@ namespace CarManagement.Migrations
                 {
                     table.PrimaryKey("PK_Log", x => x.gdHistoryId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    szEmail = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    szFullName = table.Column<string>(type: "nvarchar(100)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(nullable: false),
+                    dtmCreated = table.Column<DateTime>(nullable: false),
+                    dtmUpdated = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.szEmail);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -46,6 +61,9 @@ namespace CarManagement.Migrations
 
             migrationBuilder.DropTable(
                 name: "Log");
+
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }
