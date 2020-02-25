@@ -17,6 +17,10 @@ Simple apps with three pages using Asp.Net Core 3.1:
 ```
 [Route("api/signup")]
 [HttpPost]
+public ActionResult SignUp([FromBody] RegisterModel registerModel)
+{
+...
+}
 ```
 Register new user will hit api with parameter RegisterModel. RegisterModel data class is like code below
 ```
@@ -35,6 +39,10 @@ Password will be saved in MD5 hash.
 ```
 [Route("api/signin")]
 [HttpPost]
+public async Task<ActionResult> SignIn([FromBody] SignInRequest signInRequest)
+{
+...
+}
 ```
 Login will hit api with parameter SignInRequest. SignInRequest data class is like code below
 ```
