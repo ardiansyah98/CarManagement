@@ -42,7 +42,14 @@ namespace CarManagement.COntrollers
 
         public async Task<ActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            CreateLog(
+                this.HttpContext.User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault().Value, 
+                DateTime.Now, 
+                new { status = "logout" }, 
+                "Logout");
+            _context.SaveChanges();
+
+            await HttpContext.SignOutAsync(); 
             return RedirectToAction("Login", "Auth");
         }
 
