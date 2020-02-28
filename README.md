@@ -1,11 +1,11 @@
 # Car Management
 
-Simple apps with three pages using Asp.Net Core 3.1: 
+Simple app with three pages using Asp.Net Core 3.1: 
   - Register
   - Login
   - Manage Car
 
-# Feature
+# Features
 - Migrate database on startup
 - Using Cookie for authentication
 - Register new user
